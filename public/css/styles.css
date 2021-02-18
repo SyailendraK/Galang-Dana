@@ -1,0 +1,373 @@
+html {
+  scroll-behavior: smooth;
+}
+
+.curved-box {
+  border-radius: 30px 30px 30px 30px;
+}
+
+.fixed {
+  position: fixed;
+  z-index: 1;
+}
+
+.my-0 {
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+
+.bold {
+  font-weight: bolder;
+}
+
+.pb-1 {
+  padding-bottom: 1%;
+}
+
+.pb-2 {
+  padding-bottom: 2%;
+}
+
+.pb-3 {
+  padding-bottom: 3%;
+}
+
+.pb-4 {
+  padding-bottom: 4%;
+}
+
+.pt-05 {
+  padding-top: 0.5%;
+}
+
+.pt-1 {
+  padding-top: 1%;
+}
+
+.pt-2 {
+  padding-top: 2%;
+}
+
+.pt-3 {
+  padding-top: 3%;
+}
+
+.pt-4 {
+  padding-top: 4%;
+}
+
+.pt-5 {
+  padding-top: 5%;
+}
+
+.pt-40 {
+  padding-top: 3% !important;
+}
+
+.pt-50 {
+  padding-top: 6% !important;
+}
+
+.pl-1 {
+  padding-left: 1%;
+}
+
+.pl-2 {
+  padding-left: 2%;
+}
+
+.pl-3 {
+  padding-left: 3%;
+}
+
+.pl-4 {
+  padding-left: 4%;
+}
+
+.pl-5 {
+  padding-left: 5%;
+}
+
+.pl-50 {
+  padding-left: 7% !important;
+}
+
+.pr-1 {
+  padding-right: 1%;
+}
+
+.pr-2 {
+  padding-right: 2%;
+}
+
+.pr-3 {
+  padding-right: 3%;
+}
+
+.pr-4 {
+  padding-right: 4%;
+}
+
+.pr-5 {
+  padding-right: 5%;
+}
+
+.pr-50 {
+  padding-right: 10% !important;
+}
+
+.mb-1 {
+  margin-bottom: 1%;
+}
+
+.mb-2 {
+  margin-bottom: 2%;
+}
+
+.mb-3 {
+  margin-bottom: 3%;
+}
+
+.mb-4 {
+  margin-bottom: 4%;
+}
+
+.mt-1 {
+  margin-top: 1%;
+}
+
+.mt-2 {
+  margin-top: 2%;
+}
+
+.mt-3 {
+  margin-top: 3%;
+}
+
+.mt-4 {
+  margin-top: 4%;
+}
+
+.mt-5 {
+  margin-top: 5%;
+}
+
+.ml-1 {
+  margin-left: 1%;
+}
+
+.ml-2 {
+  margin-left: 2%;
+}
+
+.ml-3 {
+  margin-left: 3%;
+}
+
+.ml-4 {
+  margin-left: 4%;
+}
+
+.ml-40 {
+  margin-left: 25%;
+}
+
+.mr-1 {
+  margin-right: 1%;
+}
+
+.mr-2 {
+  margin-right: 2%;
+}
+
+.mr-3 {
+  margin-right: 3%;
+}
+
+.mr-4 {
+  margin-right: 4%;
+}
+
+.mr-5 {
+  margin-right: 5%;
+}
+
+.black-5 {
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+.justify {
+  text-align: justify;
+}
+
+.border {
+  border: white solid 1px;
+}
+
+.border-black {
+  border: gray solid 1px;
+}
+
+.small-img {
+  max-height: 100px;
+  padding-left: 25%;
+  box-sizing: border-box;
+}
+
+.icon-size {
+  font-size: 1rem;
+}
+
+.bottom {
+  position: absolute;
+  left: 4vw;
+  bottom: 3vh;
+  border-radius: 50px 50px 50px 50px;
+}
+
+.float {
+  position: relative;
+  top: -30px;
+  font-size: smaller;
+}
+
+.tabs {
+  height: 80px !important;
+}
+
+.tab {
+  height: 80px !important;
+}
+
+.bottom-nav {
+  height: 70px !important;
+}
+
+.brand-logo {
+  font-size: 1.5rem !important;
+}
+
+.logo-text {
+  font-family: "Dancing Script", cursive;
+  font-size: 2rem !important;
+}
+
+.hide-slow {
+  /* transition: ease-in-out 0.4s; */
+  display: none;
+}
+
+.eye {
+  opacity: 0;
+  position: fixed;
+  bottom: 0.1vh;
+  left: 45vw;
+  transition: ease-in-out 0.4s;
+}
+
+.spawn-slow {
+  display: block;
+  /* transition: ease-in-out 0.4s; */
+}
+
+.z-index-1 {
+  z-index: 1 !important;
+}
+
+.card-image img {
+  min-height: 200px;
+}
+
+.overflow-x {
+  overflow: hidden;
+}
+
+.carousel {
+  overflow: visible !important;
+  top: -110px;
+}
+
+.bg-uang {
+  background-image: url(/img/donasi1.png);
+  background-position: top;
+  background-size: cover;
+  background-repeat: no-repeat;
+  /* opacity: 0.8; */
+  height: 47vh;
+}
+
+#donasi {
+  margin-bottom: 0;
+}
+
+.bg-barang {
+  background-image: url(/img/donasi3.jpg);
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  /* opacity: 0.8; */
+  height: 47vh;
+}
+
+.bg-overlay {
+  /* background-color: rgba(red, green, blue, alpha); */
+}
+
+/* .btn-floating {
+  width: auto !important;
+  height: min-content !important;
+  border-radius: 10px;
+  box-sizing: border-box;
+  padding-left: 1%;
+  padding-right: 1%;
+}
+
+.btn-floating.halfway-fab {
+  right: 2% !important;
+}
+
+.btn-floating p {
+  margin-top: 0;
+  margin-bottom: 0;
+  /* box-sizing: border-box; */
+/* padding-left: 0.5%; */
+/* padding-right: 0.5%; */
+
+/* } */
+
+@media screen and (max-width: 600px) {
+  .deskripsi {
+    padding-left: 0px;
+  }
+
+  .deskripsi b {
+    margin-left: 30%;
+  }
+
+  .ml-40 {
+    margin-left: 5%;
+  }
+
+  .logo-text {
+    font-size: 1.6rem !important;
+  }
+
+  .hide-eye {
+    opacity: 0 !important;
+    transition: ease-in-out 0.4s;
+  }
+
+  .show {
+    opacity: 0.5 !important;
+    transition: ease-in-out 0.8s;
+  }
+
+  .btn-donasi {
+    margin-right: 20%;
+    margin-top: 5%;
+  }
+
+  .center-mobile p {
+    text-align: center;
+  }
+}
