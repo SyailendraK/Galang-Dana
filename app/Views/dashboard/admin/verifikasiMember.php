@@ -13,7 +13,7 @@
           <h5 class="card-title">Pengajuan Verifikasi</h5>
           
           <div class="row">
-          <div class="col-12">
+          <div class="col-12" style="overflow-x: scroll;">
           <?php if(session()->getFlashdata('pesan')): ?>
             <?= session()->getFlashdata('pesan'); ?>
           <?php endif; ?>
@@ -53,7 +53,7 @@
           </form>
 
           <div class="row">
-          <div class="col-12">
+          <div class="col-12" style="overflow-x: scroll;">
           
           <?php if(session()->getFlashdata('unverif')): ?>
             <?= session()->getFlashdata('unverif'); ?>

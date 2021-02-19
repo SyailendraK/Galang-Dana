@@ -8,7 +8,7 @@
           <img class="activator" src="/img/icon_donatur_tr.png" />
         </div>
         <div class="card-content">
-          <span class="card-title activator grey-text text-darken-4">Status :
+          <span class="card-title activator red-text text-darken-4">Status :
         <?php if($data['status_code'] == 201){
         echo "Pending menunggu pembayaran";
         }else if($data['status_code'] == 200){
@@ -16,6 +16,8 @@
         } ?>
             <i class="material-icons right">more_vert</i>
           </span>
+          <p>
+          Harap cek Email yang anda masukan untuk informasi pembayaran selanjutnya. Terima kasih.</p>
           <p>
             <a href="#"
               >Order id :
@@ -28,9 +30,14 @@
             >Detail information<i class="material-icons right">close</i></span
           >
           <p>
-            jumlah :
-            <?= $data['gross_amount'] ?>
+            Janis Pembayaran :
+            <?= $data['payment_type'] ?>
           </p>
+          <p>
+            jumlah :
+            <?= 'Rp.'.number_format($data['gross_amount']) ?>
+          </p>
+          
         </div>
         <div class="card-action center">
           <button type="button" class="btn" id="reload">

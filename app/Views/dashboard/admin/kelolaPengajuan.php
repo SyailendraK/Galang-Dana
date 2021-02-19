@@ -12,7 +12,7 @@
         <div class="card-body">
           <h5 class="card-title">Daftar Pengajuan</h5>
           <div class="row">
-          <div class="col-12">
+          <div class="col-12" style="overflow-x: scroll;">
           <?php if(session()->getFlashdata('pengajuan')): ?>
             <?= session()->getFlashdata('pengajuan'); ?>
           <?php endif; ?>
@@ -52,7 +52,7 @@
           </form>
 
           <div class="row">
-          <div class="col-12">
+          <div class="col-12" style="overflow-x: scroll;">
           
           <?php if(session()->getFlashdata('bayar')): ?>
             <?= session()->getFlashdata('bayar'); ?>

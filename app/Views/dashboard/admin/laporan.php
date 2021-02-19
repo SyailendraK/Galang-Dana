@@ -12,7 +12,7 @@
         <div class="card-body">
           <h5 class="card-title">Filter Waktu</h5>
           <div class="row justify-content-center">
-            <div class="col-6 offset-1">
+            <div class="col-md-6 col-sm-12 offset-1">
               <form class="form-inline" method="get" action="/dashboardAdmin/laporan">
                 <input class="form-control mr-sm-2" type="date"  aria-label="Search" name="dateStart">
                 <input class="form-control mr-sm-2" type="date"  aria-label="Search" name="dateEnd">

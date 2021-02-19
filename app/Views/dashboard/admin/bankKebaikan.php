@@ -49,11 +49,7 @@
               ?></p>
             </div>
           </div>
-          <div class="row">
-            <div class="col-12">
-                <a href="#" class="btn btn-primary">Daftar Transaksi</a>
-            </div>
-          </div>
+          
         </div>
       </div>
     </div>
