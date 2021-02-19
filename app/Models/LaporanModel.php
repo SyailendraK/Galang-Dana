@@ -16,7 +16,7 @@ class LaporanModel extends Model
 
   public function getPengajuanLaporanByID($id)
   {
-      return $this->select('pengajuan_bantuan.nama AS nama,pengajuan_bantuan.nik AS nik,laporan_bantuan.cerita AS cerita,   laporan_bantuan.jumlah AS jumlah, fotoDiri, barang, laporan_bantuan.id AS id')->where(['status' => 2, 'laporan_bantuan.id' => $id])->join('pengajuan_bantuan', 'pengajuan_bantuan.id = laporan_bantuan.bantuan_id')->first();
+      return $this->select('laporan_bantuan.user_id AS user_id,pengajuan_bantuan.nama AS nama,pengajuan_bantuan.nik AS nik,laporan_bantuan.cerita AS cerita,   laporan_bantuan.jumlah AS jumlah, fotoDiri, barang, laporan_bantuan.id AS id')->where(['status' => 2, 'laporan_bantuan.id' => $id])->join('pengajuan_bantuan', 'pengajuan_bantuan.id = laporan_bantuan.bantuan_id')->first();
   }
 
   public function getLaporanByName($name)

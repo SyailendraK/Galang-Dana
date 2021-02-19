@@ -132,87 +132,92 @@ class Dashboard extends BaseController
 
   public function verifikasi()
   {
-    $data = [
-      'validation' => \Config\Services::validation(),
-    ];
-    
-    $rules = [
-      'nama' => 'required',
-      'nik' => [
-        'rules' => 'required|is_unique[verifikasi.nik]|is_natural',
-        'errors' => [
-          'is_unique' => 'NIK ini sudah terdaftar untuk akun lain',
-        ]
-      ],
-      'ktp' => [
-        'rules' => 'max_size[ktp,1024]|is_image[ktp]|mime_in[ktp,image/jpg,image/jpeg,image/png]',
-        'errors' => [
-          'max_size' => 'Ukuran gambar terlalu besar max 1MB',
-          'is_image' => 'yang anda pilih bukan gambar',
-          'mime_in' => 'yang anda pilih bukan gambar'
-        ]
-      ],
-      'ktpdiri' => [
-        'rules' => 'max_size[ktpdiri,1024]|is_image[ktpdiri]|mime_in[ktpdiri,image/jpg,image/jpeg,image/png]',
-        'errors' => [
-          'max_size' => 'Ukuran gambar terlalu besar max 1MB',
-          'is_image' => 'yang anda pilih bukan gambar',
-          'mime_in' => 'yang anda pilih bukan gambar'
-        ]
-      ]
-    ];
-
-    if($this->request->getVar('submit') !== null){
-      if ($this->validate($rules)){
-        
-        $fileKtp = $this->request->getFile('ktp');
-        $fileKtpDiri = $this->request->getFile('ktpdiri');
-
-        $data['nama'] = $this->request->getPost('nama');
-        $data['nik'] = $this->request->getPost('nik');
-        $data['ktp'] = $fileKtp->getRandomName();
-        $data['ktpDiri'] = $fileKtpDiri->getRandomName();
-
-        $cekData = $this->verifikasiModel->getVerifikasiByID(user()->id);
-        $stat=false;
-        if($cekData != null){
-          $stat=true;
-        }
-
-
-        // if($this->_cekNIK($data['nik'],$data['nama'])){
-          if($this->verifikasiModel->verifikasi($data,$stat) && $this->usersModel->updateStatus(user()->id, 1)){
-            if($stat){
-              $fileKtp->move('img/ktp', $data['ktp']);
-              $fileKtpDiri->move('img/ktp', $data['ktpDiri']);
-              unlink('img/ktp/'.$cekData['ktp']);
-              unlink('img/ktp/'.$cekData['ktpdiri']);
-            }else{
-              $fileKtp->move('img/ktp', $data['ktp']);
-              $fileKtpDiri->move('img/ktp', $data['ktpDiri']);
-            }
-            
-            session()->setFlashdata('ktp', '<div class="alert alert-success" role="alert">
-            Data berhasil dikirim, harap menunggu proses verifikasi
-            </div>');
-            return redirect()->to('/dashboard');
-          }else{
-            session()->setFlashdata('pesan', '<div class="alert alert-danger" role="alert">
-            Data gagal dikirim
-            </div>');
-            return redirect()->to('/dashboard/verifikasi');
-          }
-        // }else{
-        //   session()->setFlashdata('pesan', '<div class="alert alert-danger" role="alert">
-        //     Data NIK tersebut tidak ditemukan
-        //     </div>');
-        //     return redirect()->to('/dashboard/verifikasi');
-        // }
-      }else{
-        return redirect()->to('/dashboard/verifikasi')->withInput();
-      }
+    if(user()->status != 0 || user()->address == null || user()->telephone == null){
+      echo "Access Denied";
+      die;
     }else{
-      return view('dashboard/member/verifikasi',$data);
+      $data = [
+        'validation' => \Config\Services::validation(),
+      ];
+      
+      $rules = [
+        'nama' => 'required',
+        'nik' => [
+          'rules' => 'required|is_unique[verifikasi.nik]|is_natural',
+          'errors' => [
+            'is_unique' => 'NIK ini sudah terdaftar untuk akun lain',
+          ]
+        ],
+        'ktp' => [
+          'rules' => 'max_size[ktp,1024]|is_image[ktp]|mime_in[ktp,image/jpg,image/jpeg,image/png]',
+          'errors' => [
+            'max_size' => 'Ukuran gambar terlalu besar max 1MB',
+            'is_image' => 'yang anda pilih bukan gambar',
+            'mime_in' => 'yang anda pilih bukan gambar'
+          ]
+        ],
+        'ktpdiri' => [
+          'rules' => 'max_size[ktpdiri,1024]|is_image[ktpdiri]|mime_in[ktpdiri,image/jpg,image/jpeg,image/png]',
+          'errors' => [
+            'max_size' => 'Ukuran gambar terlalu besar max 1MB',
+            'is_image' => 'yang anda pilih bukan gambar',
+            'mime_in' => 'yang anda pilih bukan gambar'
+          ]
+        ]
+      ];
+
+      if($this->request->getVar('submit') !== null){
+        if ($this->validate($rules)){
+          
+          $fileKtp = $this->request->getFile('ktp');
+          $fileKtpDiri = $this->request->getFile('ktpdiri');
+
+          $data['nama'] = $this->request->getPost('nama');
+          $data['nik'] = $this->request->getPost('nik');
+          $data['ktp'] = $fileKtp->getRandomName();
+          $data['ktpDiri'] = $fileKtpDiri->getRandomName();
+
+          $cekData = $this->verifikasiModel->getVerifikasiByID(user()->id);
+          $stat=false;
+          if($cekData != null){
+            $stat=true;
+          }
+
+
+          // if($this->_cekNIK($data['nik'],$data['nama'])){
+            if($this->verifikasiModel->verifikasi($data,$stat) && $this->usersModel->updateStatus(user()->id, 1)){
+              if($stat){
+                $fileKtp->move('img/ktp', $data['ktp']);
+                $fileKtpDiri->move('img/ktp', $data['ktpDiri']);
+                unlink('img/ktp/'.$cekData['ktp']);
+                unlink('img/ktp/'.$cekData['ktpdiri']);
+              }else{
+                $fileKtp->move('img/ktp', $data['ktp']);
+                $fileKtpDiri->move('img/ktp', $data['ktpDiri']);
+              }
+              
+              session()->setFlashdata('ktp', '<div class="alert alert-success" role="alert">
+              Data berhasil dikirim, harap menunggu proses verifikasi
+              </div>');
+              return redirect()->to('/dashboard');
+            }else{
+              session()->setFlashdata('pesan', '<div class="alert alert-danger" role="alert">
+              Data gagal dikirim
+              </div>');
+              return redirect()->to('/dashboard/verifikasi');
+            }
+          // }else{
+          //   session()->setFlashdata('pesan', '<div class="alert alert-danger" role="alert">
+          //     Data NIK tersebut tidak ditemukan
+          //     </div>');
+          //     return redirect()->to('/dashboard/verifikasi');
+          // }
+        }else{
+          return redirect()->to('/dashboard/verifikasi')->withInput();
+        }
+      }else{
+        return view('dashboard/member/verifikasi',$data);
+      }
     }
   }
 
@@ -286,129 +291,165 @@ class Dashboard extends BaseController
   public function perbaruiPengajuan($id)
   {
     $dataLama = $this->pengajuanModel->getPengajuan($id);
-    $data = [
-      'validation' => \Config\Services::validation(),
-      'pengajuan' => $dataLama,
-      'bank' => json_decode($this->pengajuanModel::$bank,true),
-    ];
 
-    $rules = [
-      'cerita' => 'required',
-      'siapa' => 'required',
-      'nama' => 'required',
-      'nik' => 'required',
-      'nomorHP' => 'required|is_natural',
-      'email' => 'required|valid_email',
-      'alamat' => 'required',
-      'bank' => 'required',
-      'rekening' => 'required|is_natural',
-      'jumlah' => 'required|is_natural',
-      'fotoDiri' => [
-        'rules' => 'max_size[fotoDiri,1024]|is_image[fotoDiri]|mime_in[fotoDiri,image/jpg,image/jpeg,image/png]',
-        'errors' => [
-          'max_size' => 'Ukuran gambar terlalu besar max 1MB',
-          'is_image' => 'yang anda pilih bukan gambar',
-          'mime_in' => 'yang anda pilih bukan gambar'
-        ]
-      ],
-    ];
+    if($dataLama['user_id'] != user_id() || $dataLama['status'] != 0){
+      echo "Access Denied";
+      die;
+    }else{
 
-    if($this->request->getVar('submit') !== null){
-      if ($this->validate($rules)){
-        $fileFoto = $this->request->getFile('fotoDiri');
+      $data = [
+        'validation' => \Config\Services::validation(),
+        'pengajuan' => $dataLama,
+        'bank' => json_decode($this->pengajuanModel::$bank,true),
+      ];
 
-        $dataBantuan['id'] = $id;
-        $dataBantuan['user_id'] = user_id();
-        $dataBantuan['cerita'] = $this->request->getPost('cerita');
-        $dataBantuan['siapa'] = $this->request->getPost('siapa');
-        $dataBantuan['nama'] = $this->request->getPost('nama');
-        $dataBantuan['nik'] = $this->request->getPost('nik');
-        $dataBantuan['nomorHP'] = $this->request->getPost('nomorHP');
-        $dataBantuan['email'] = $this->request->getPost('email');
-        $dataBantuan['alamat'] = $this->request->getPost('alamat');
-        $dataBantuan['bank'] = $this->request->getPost('bank');
-        $dataBantuan['rekening'] = $this->request->getPost('rekening');
-        $dataBantuan['jumlah'] = $this->request->getPost('jumlah');
-        if($fileFoto->getSize() != 0){
-          $dataBantuan['fotoDiri'] = $fileFoto->getRandomName();
-        }
+      $rules = [
+        'cerita' => 'required',
+        'siapa' => 'required',
+        'nama' => 'required',
+        'nik' => 'required',
+        'nomorHP' => 'required|is_natural',
+        'email' => 'required|valid_email',
+        'alamat' => 'required',
+        'bank' => 'required',
+        'rekening' => 'required|is_natural',
+        'jumlah' => 'required|is_natural',
+        'fotoDiri' => [
+          'rules' => 'max_size[fotoDiri,1024]|is_image[fotoDiri]|mime_in[fotoDiri,image/jpg,image/jpeg,image/png]',
+          'errors' => [
+            'max_size' => 'Ukuran gambar terlalu besar max 1MB',
+            'is_image' => 'yang anda pilih bukan gambar',
+            'mime_in' => 'yang anda pilih bukan gambar'
+          ]
+        ],
+      ];
 
-        if($this->pengajuanModel->pengajuanBantuan($dataBantuan) && $this->pengajuanModel->updatePengajuanStatus($id,0)){
+      if($this->request->getVar('submit') !== null){
+        if ($this->validate($rules)){
+          $fileFoto = $this->request->getFile('fotoDiri');
+
+          $dataBantuan['id'] = $id;
+          $dataBantuan['user_id'] = user_id();
+          $dataBantuan['cerita'] = $this->request->getPost('cerita');
+          $dataBantuan['siapa'] = $this->request->getPost('siapa');
+          $dataBantuan['nama'] = $this->request->getPost('nama');
+          $dataBantuan['nik'] = $this->request->getPost('nik');
+          $dataBantuan['nomorHP'] = $this->request->getPost('nomorHP');
+          $dataBantuan['email'] = $this->request->getPost('email');
+          $dataBantuan['alamat'] = $this->request->getPost('alamat');
+          $dataBantuan['bank'] = $this->request->getPost('bank');
+          $dataBantuan['rekening'] = $this->request->getPost('rekening');
+          $dataBantuan['jumlah'] = $this->request->getPost('jumlah');
           if($fileFoto->getSize() != 0){
-            $fileFoto->move('img/fotodiri', $dataBantuan['fotoDiri']);
-            unlink('img/fotodiri/'.$dataLama['fotoDiri']);
+            $dataBantuan['fotoDiri'] = $fileFoto->getRandomName();
           }
-          session()->setFlashdata('pesan', '<div class="alert alert-success" role="alert">
-          Data berhasil diperbarui, harap menunggu proses pengajuan
-          </div>');
-          return redirect()->to('/dashboard/perbaruiPengajuan/'.$id);
+
+          if($this->pengajuanModel->pengajuanBantuan($dataBantuan) && $this->pengajuanModel->updatePengajuanStatus($id,0)){
+            if($fileFoto->getSize() != 0){
+              $fileFoto->move('img/fotodiri', $dataBantuan['fotoDiri']);
+              unlink('img/fotodiri/'.$dataLama['fotoDiri']);
+            }
+            session()->setFlashdata('pesan', '<div class="alert alert-success" role="alert">
+            Data berhasil diperbarui, harap menunggu proses pengajuan
+            </div>');
+            return redirect()->to('/dashboard/perbaruiPengajuan/'.$id);
+          }else{
+            session()->setFlashdata('pesan', '<div class="alert alert-danger" role="alert">
+            Data gagal diperbarui
+            </div>');
+            return redirect()->to('/dashboard/perbaruiPengajuan/'.$id);
+          }
         }else{
-          session()->setFlashdata('pesan', '<div class="alert alert-danger" role="alert">
-          Data gagal diperbarui
-          </div>');
-          return redirect()->to('/dashboard/perbaruiPengajuan/'.$id);
+          return redirect()->to('/dashboard/perbaruiPengajuan/'.$id)->withInput();
         }
       }else{
-        return redirect()->to('/dashboard/perbaruiPengajuan/'.$id)->withInput();
+        return view('dashboard/member/perbaruiPengajuan',$data);
       }
-    }else{
-      return view('dashboard/member/perbaruiPengajuan',$data);
     }
   }
 
   public function hapusPengajuan($id,$foto)
   {
-    try {
-      $this->pengajuanModel->hapusPengajuan($id);
-      unlink('img/fotodiri/'.$foto);
-      session()->setFlashdata('pesan', '<div class="alert alert-success" role="alert">
-          Pengajuan berhasil dihapus
-          </div>');
-      return redirect()->to('/dashboard/statusPengajuan');
-    } catch (\Throwable $th) {
-      session()->setFlashdata('pesan', '<div class="alert alert-danger" role="alert">
-          Pengajuan gagal dihapus
-          </div>');
-      return redirect()->to('/dashboard/statusPengajuan');
+
+    $dataLama = $this->pengajuanModel->getPengajuan($id);
+
+    if($dataLama['user_id'] != user_id() || $dataLama['status'] != 0){
+      echo "Access Denied";
+      die;
+    }else{
+      try {
+        $this->pengajuanModel->hapusPengajuan($id);
+        unlink('img/fotodiri/'.$foto);
+        session()->setFlashdata('pesan', '<div class="alert alert-success" role="alert">
+            Pengajuan berhasil dihapus
+            </div>');
+        return redirect()->to('/dashboard/statusPengajuan');
+      } catch (\Throwable $th) {
+        session()->setFlashdata('pesan', '<div class="alert alert-danger" role="alert">
+            Pengajuan gagal dihapus
+            </div>');
+        return redirect()->to('/dashboard/statusPengajuan');
+      }
     }
-    
+
   }
 
   public function statusPengajuan()
   {
-    $data['status'] = $this->pengajuanModel->cariBantuanByUser();
-    return view('dashboard/member/statusPengajuan',$data);
+    if(user()->status != 2 || user()->address == null || user()->telephone == null){
+      session()->setFlashdata('pesan', '<div class="alert alert-warning" role="alert">
+          Harap melengkapi detail profile terlebih dahulu, sebelum mengakses halaman Pengajuan Bantuan
+          </div>');
+      return redirect()->to('/dashboard/editprofile');
+    }else{
+      $data['status'] = $this->pengajuanModel->cariBantuanByUser();
+      return view('dashboard/member/statusPengajuan',$data);
+    }
   }
 
   public function pelaporanBantuan()
   {
-    $status = $this->pengajuanModel->cariBantuanByUserTerbayar();
-    $no=0;
-    $laporan = [];
-    foreach($status as $i){
-      $temp=0;
-      foreach($this->laporanModel->getLaporanByUserID($i['id']) as $j){
-        $temp += $j['jumlah'];
+    if(user()->status != 2 || user()->address == null || user()->telephone == null){
+      session()->setFlashdata('pesan', '<div class="alert alert-warning" role="alert">
+          Harap melengkapi detail profile terlebih dahulu, sebelum mengakses halaman Pelaporan Bantuan
+          </div>');
+      return redirect()->to('/dashboard/editprofile');
+    }else{
+      $status = $this->pengajuanModel->cariBantuanByUserTerbayar();
+      $no=0;
+      $laporan = [];
+      foreach($status as $i){
+        $temp=0;
+        foreach($this->laporanModel->getLaporanByUserID($i['id']) as $j){
+          $temp += $j['jumlah'];
+        }
+        $laporan[$no] = $temp;
+        $no++;
       }
-      $laporan[$no] = $temp;
-      $no++;
+      // $laporan = $this->laporanModel->getLaporanByUserID($id)
+      $data = [
+        'status' => $status,
+        'terlaporkan' => $laporan
+      ];
+      return view('dashboard/member/pelaporanBantuan',$data);
     }
-    // $laporan = $this->laporanModel->getLaporanByUserID($id)
-    $data = [
-      'status' => $status,
-      'terlaporkan' => $laporan
-    ];
-    return view('dashboard/member/pelaporanBantuan',$data);
   }
 
   public function daftarLaporan($id)
   {
-    $data =[
-      'id' => $id,
-      'laporan' => $this->laporanModel->getLaporanByUserID($id),
-      'pengajuan' => $this->pengajuanModel->getPengajuan($id)
-    ];
-    return view('dashboard/member/daftarPelaporan',$data);
+    $dataLama = $this->pengajuanModel->getPengajuan($id);
+
+    if($dataLama['user_id'] != user_id() || $dataLama['status'] == 0){
+      echo "Access Denied";
+      die;
+    }else{
+      $data =[
+        'id' => $id,
+        'laporan' => $this->laporanModel->getLaporanByUserID($id),
+        'pengajuan' => $this->pengajuanModel->getPengajuan($id)
+      ];
+      return view('dashboard/member/daftarPelaporan',$data);
+    }
   }
 
   public function tambahLaporan($id)
@@ -492,117 +533,133 @@ class Dashboard extends BaseController
 
   public function hapusLaporan($idLaporan,$idPengajuan,$pembelian,$barang)
   {
-    try {
-      if($this->laporanModel->hapusLaporan($idLaporan)){
-      unlink('img/bukti_laporan/'.$pembelian);
-      unlink('img/bukti_laporan/'.$barang);
-      session()->setFlashdata('pesan', '<div class="alert alert-success" role="alert">
-          Laporan berhasil dihapus
-          </div>');
-      }else{
+    $dataLama['pengajuan'] = $this->pengajuanModel->getPengajuan($idPengajuan);
+    $dataLama['laporan'] = $this->laporanModel->getPengajuanLaporanByID($idLaporan);
+
+    if($dataLama['laporan']['user_id'] != user_id() || $dataLama['pengajuan']['user_id'] != user_id() || $dataLama['pengajuan']['status'] == 0){
+      echo "Access Denied";
+      die;
+    }else{
+      try {
+        if($this->laporanModel->hapusLaporan($idLaporan)){
+        unlink('img/bukti_laporan/'.$pembelian);
+        unlink('img/bukti_laporan/'.$barang);
         session()->setFlashdata('pesan', '<div class="alert alert-success" role="alert">
-          Laporan gagal dihapus
-          </div>');
+            Laporan berhasil dihapus
+            </div>');
+        }else{
+          session()->setFlashdata('pesan', '<div class="alert alert-success" role="alert">
+            Laporan gagal dihapus
+            </div>');
+        }
+        return redirect()->to('/dashboard/daftarLaporan/'.$idPengajuan);
+      } catch (\Throwable $th) {
+        session()->setFlashdata('pesan', '<div class="alert alert-danger" role="alert">
+            Laporan gagal dihapus
+            </div>');
+        return redirect()->to('/dashboard/daftarLaporan/'.$idPengajuan);
       }
-      return redirect()->to('/dashboard/daftarLaporan/'.$idPengajuan);
-    } catch (\Throwable $th) {
-      session()->setFlashdata('pesan', '<div class="alert alert-danger" role="alert">
-          Laporan gagal dihapus
-          </div>');
-      return redirect()->to('/dashboard/daftarLaporan/'.$idPengajuan);
     }
   }
 
   public function perbaruiLaporan($idLaporan, $idPengajuan)
   {
-    $data = [
-      'validation' => \Config\Services::validation(),
-      'laporan' => $this->laporanModel->getLaporanByID($idLaporan),
-      'id' => $idLaporan,
-      'idPengajuan' => $idPengajuan
-    ];
+    $dataLama['pengajuan'] = $this->pengajuanModel->getPengajuan($idPengajuan);
+    $dataLama['laporan'] = $this->laporanModel->getPengajuanLaporanByID($idLaporan);
 
-    $temp = 0;
+    if($dataLama['laporan']['user_id'] != user_id() || $dataLama['pengajuan']['user_id'] != user_id() || $dataLama['pengajuan']['status'] == 0){
+      echo "Access Denied";
+      die;
+    }else{
+      $data = [
+        'validation' => \Config\Services::validation(),
+        'laporan' => $this->laporanModel->getLaporanByID($idLaporan),
+        'id' => $idLaporan,
+        'idPengajuan' => $idPengajuan
+      ];
 
-    $laporan = $this->laporanModel->getLaporanByUserID($idPengajuan);
-    foreach($laporan as $i){
-      $temp += (int) $i['jumlah'];
-    }
-    $pengajuan = $this->pengajuanModel->getPengajuan($idPengajuan);
+      $temp = 0;
 
-    $inputJumlah = $this->request->getPost('jumlah');
-    $cekJumlah = (int) $pengajuan['jumlah'] - $temp + $data['laporan']['jumlah'];
+      $laporan = $this->laporanModel->getLaporanByUserID($idPengajuan);
+      foreach($laporan as $i){
+        $temp += (int) $i['jumlah'];
+      }
+      $pengajuan = $this->pengajuanModel->getPengajuan($idPengajuan);
 
-    $rules = [
-      'cerita' => 'required',
-      'jumlah' => 'required|is_natural',
-      'pembelian' => [
-        'rules' => 'max_size[pembelian,1024]|is_image[pembelian]|mime_in[pembelian,image/jpg,image/jpeg,image/png]',
-        'errors' => [
-          'max_size' => 'Ukuran gambar terlalu besar max 1MB',
-          'is_image' => 'yang anda pilih bukan gambar',
-          'mime_in' => 'yang anda pilih bukan gambar'
-        ]
-      ],
-      'barang' => [
-        'rules' => 'max_size[barang,1024]|is_image[barang]|mime_in[barang,image/jpg,image/jpeg,image/png]',
-        'errors' => [
-          'max_size' => 'Ukuran gambar terlalu besar max 1MB',
-          'is_image' => 'yang anda pilih bukan gambar',
-          'mime_in' => 'yang anda pilih bukan gambar'
-        ]
-      ],
-    ];
+      $inputJumlah = $this->request->getPost('jumlah');
+      $cekJumlah = (int) $pengajuan['jumlah'] - $temp + $data['laporan']['jumlah'];
 
-    if($this->request->getVar('submit') !== null){
-      if($inputJumlah <= $cekJumlah){
-        if ($this->validate($rules)){
-          $filePembelian = $this->request->getFile('pembelian');
-          $fileBarang = $this->request->getFile('barang');
+      $rules = [
+        'cerita' => 'required',
+        'jumlah' => 'required|is_natural',
+        'pembelian' => [
+          'rules' => 'max_size[pembelian,1024]|is_image[pembelian]|mime_in[pembelian,image/jpg,image/jpeg,image/png]',
+          'errors' => [
+            'max_size' => 'Ukuran gambar terlalu besar max 1MB',
+            'is_image' => 'yang anda pilih bukan gambar',
+            'mime_in' => 'yang anda pilih bukan gambar'
+          ]
+        ],
+        'barang' => [
+          'rules' => 'max_size[barang,1024]|is_image[barang]|mime_in[barang,image/jpg,image/jpeg,image/png]',
+          'errors' => [
+            'max_size' => 'Ukuran gambar terlalu besar max 1MB',
+            'is_image' => 'yang anda pilih bukan gambar',
+            'mime_in' => 'yang anda pilih bukan gambar'
+          ]
+        ],
+      ];
 
-          $dataBantuan['id'] = $idLaporan;
-          $dataBantuan['cerita'] = $this->request->getPost('cerita');
-          $dataBantuan['jumlah'] = $this->request->getPost('jumlah');
-          if($filePembelian->getSize() != 0){
-            $dataBantuan['pembelian'] = $filePembelian->getRandomName();
-          }
-          if($fileBarang->getSize() != 0){
-            $dataBantuan['barang'] = $fileBarang->getRandomName();
-          }
+      if($this->request->getVar('submit') !== null){
+        if($inputJumlah <= $cekJumlah){
+          if ($this->validate($rules)){
+            $filePembelian = $this->request->getFile('pembelian');
+            $fileBarang = $this->request->getFile('barang');
 
-          if($this->laporanModel->tambahLaporan($dataBantuan)){
-
+            $dataBantuan['id'] = $idLaporan;
+            $dataBantuan['cerita'] = $this->request->getPost('cerita');
+            $dataBantuan['jumlah'] = $this->request->getPost('jumlah');
             if($filePembelian->getSize() != 0){
-              $filePembelian->move('img/bukti_laporan', $dataBantuan['pembelian']);
-              unlink('img/bukti_laporan/'.$data['laporan']['pembelian']);
+              $dataBantuan['pembelian'] = $filePembelian->getRandomName();
+            }
+            if($fileBarang->getSize() != 0){
+              $dataBantuan['barang'] = $fileBarang->getRandomName();
             }
 
-            if($fileBarang->getSize() != 0){
-              $fileBarang->move('img/bukti_laporan', $dataBantuan['barang']);
-              unlink('img/bukti_laporan/'.$data['laporan']['barang']);
+            if($this->laporanModel->tambahLaporan($dataBantuan)){
+
+              if($filePembelian->getSize() != 0){
+                $filePembelian->move('img/bukti_laporan', $dataBantuan['pembelian']);
+                unlink('img/bukti_laporan/'.$data['laporan']['pembelian']);
+              }
+
+              if($fileBarang->getSize() != 0){
+                $fileBarang->move('img/bukti_laporan', $dataBantuan['barang']);
+                unlink('img/bukti_laporan/'.$data['laporan']['barang']);
+              }
+              
+              session()->setFlashdata('pesan', '<div class="alert alert-success" role="alert">
+              Laporan berhasil diperbarui
+              </div>');
+              return redirect()->to('/dashboard/daftarLaporan/'.$idPengajuan);
+            }else{
+              session()->setFlashdata('pesan', '<div class="alert alert-danger" role="alert">
+              Laporan gagal diperbarui
+              </div>');
+              return redirect()->to('/dashboard/daftarLaporan/'.$idPengajuan);
             }
-            
-            session()->setFlashdata('pesan', '<div class="alert alert-success" role="alert">
-            Laporan berhasil diperbarui
-            </div>');
-            return redirect()->to('/dashboard/daftarLaporan/'.$idPengajuan);
           }else{
-            session()->setFlashdata('pesan', '<div class="alert alert-danger" role="alert">
-            Laporan gagal diperbarui
-            </div>');
-            return redirect()->to('/dashboard/daftarLaporan/'.$idPengajuan);
+            return redirect()->to('/dashboard/daftarLaporan/'.$idPengajuan)->withInput();
           }
         }else{
-          return redirect()->to('/dashboard/daftarLaporan/'.$idPengajuan)->withInput();
+          session()->setFlashdata('pesan', '<div class="alert alert-danger" role="alert">
+              Jumlah dana melebihi pengajuan
+              </div>');
+              return redirect()->to('/dashboard/daftarLaporan/'.$idPengajuan);
         }
       }else{
-        session()->setFlashdata('pesan', '<div class="alert alert-danger" role="alert">
-            Jumlah dana melebihi pengajuan
-            </div>');
-            return redirect()->to('/dashboard/daftarLaporan/'.$idPengajuan);
+        return view('dashboard/member/perbaruiLaporan',$data);
       }
-    }else{
-      return view('dashboard/member/perbaruiLaporan',$data);
     }
   }
 	//--------------------------------------------------------------------
