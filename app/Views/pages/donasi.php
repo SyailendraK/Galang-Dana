@@ -34,7 +34,7 @@
     </div>
   </div>
 
-  <div class="amber lighten-4">
+  <div class="grey lighten-4">
     <div class="">
       <div class="row">
         <div class="col l8 s12">
