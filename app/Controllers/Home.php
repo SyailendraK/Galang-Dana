@@ -35,9 +35,17 @@ class Home extends BaseController
 	public function daftarKabar()
 	{
 		$data = [
-			'laporan' => $this->laporanModel->getPengajuanLaporan(6),
-			'pengajuan' => $this->pengajuanModel->getPengajuanTerbayarAll(6)
+			'laporan' => $this->laporanModel->getPengajuanLaporanPaginate(3,'laporan'),
+			'pengajuan' => $this->pengajuanModel->getPengajuanTerbayarAllPaginate(3,'pengajuan'),
+			'pager' => $this->laporanModel->pager,
+			'pager2' => $this->pengajuanModel->pager,
 		];
+
+		// $data = [
+		// 	'laporan' => $this->laporanModel->getPengajuanLaporan(100),
+		// 	'pengajuan' => $this->pengajuanModel->getPengajuanTerbayarAll(100),
+		// ];
+
 		return view('pages/daftarKabar',$data);
 	}
 

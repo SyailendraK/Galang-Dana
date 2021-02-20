@@ -88,6 +88,7 @@
     <div class="carousel">
       <?php foreach($pengajuan as $i): ?>
       <div class="col l4 s12 carousel-item">
+        <a href="/home/detailKabar/1/<?= $i['id'] ?>">
         <div class="card">
           <p class="green center-align white-text my-0">Rp.<?= number_format($i['lap_jumlah']) ?></p>
           <div class="card-image">
@@ -108,6 +109,7 @@
             </p>
           </div>
         </div>
+        </a>
       </div>
       <?php endforeach; ?>
     </div>

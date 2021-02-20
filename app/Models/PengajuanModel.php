@@ -585,6 +585,11 @@ class PengajuanModel extends Model
     {
         return $this->where(['status' => 2])->orderBy('created_at', 'desc')->findAll($limit);
     }
+
+    public function getPengajuanTerbayarAllPaginate($limit, $group)
+    {
+        return $this->where(['status' => 2])->orderBy('created_at', 'desc')->paginate($limit, $group);
+    }
     
     public function pengajuanBantuan($data)
     {
