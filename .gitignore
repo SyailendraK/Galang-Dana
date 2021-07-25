@@ -84,6 +84,9 @@ phpunit
 # Composer
 #-------------------------
 vendor/
+public/img/bukti_laporan.png
+public/img/fotodiri
+public/img/ktp
 
 #-------------------------
 # IDE / Development Files
