@@ -27,7 +27,7 @@ class Snap extends BaseController {
     {
 		$this->transaksiModel = new TransaksiModel();
 		$this->midtrans = new Midtrans();
-    $params = array('server_key' => 'SB-Mid-server-V9MgRs54SbZqZGoIR6bRynbB', 'production' => false);
+    $params = array('server_key' => '***', 'production' => false);
 		$this->midtrans->config($params);
 		// $this->load->helper('url');	
     }

@@ -12,7 +12,7 @@
         <div class="card-body">
           <h5 class="card-title">Filter Waktu</h5>
           <div class="row justify-content-center">
-            <div class="col-md-6 col-sm-12 offset-1">
+            <div class="col-md-12 col-sm-12 offset-md-6">
               <form class="form-inline" method="get" action="/dashboardAdmin/laporan">
                 <input class="form-control mr-sm-2" type="date"  aria-label="Search" name="dateStart">
                 <input class="form-control mr-sm-2" type="date"  aria-label="Search" name="dateEnd">
@@ -49,18 +49,20 @@
             <thead>
               <tr>
                 <th scope="col">No.</th>
+                <th scope="col">Tanggal</th>
                 <th scope="col">Jumlah</th>
-                <th scope="col">Aksi</th>
+                <!-- <th scope="col">Aksi</th> -->
               </tr>
             </thead>
             <tbody>
               <?php $no=1;foreach($transaksi as $i): if($i['status_code'] == 200):?>
               <tr style="text-transform: capitalize">
                 <td><?= $no ?></td>
+                <td><?= date("m-d-Y", strtotime($i['created_at'])) ?></td>
                 <td>Rp.<?= number_format($i['gross_amount']) ?></td>
-                <td>
+                <!-- <td>
                   <a href="/dashboardAdmin/detailTransaksi/<?= $i['order_id'] ?>" class="badge badge-primary">Detail</a>
-                </td>
+                </td> -->
               </tr>
               <?php $no++;endif;endforeach; ?>
             </tbody>
@@ -91,18 +93,20 @@
             <thead>
               <tr>
                 <th scope="col">No.</th>
+                <th scope="col">Tanggal</th>
                 <th scope="col">Jumlah</th>
-                <th scope="col">Aksi</th>
+                <!-- <th scope="col">Aksi</th> -->
               </tr>
             </thead>
             <tbody>
             <?php $no=1;foreach($transaksi as $i):if($i['status_code'] == 199): ?>
               <tr style="text-transform: capitalize">
                 <td><?= $no ?></td>
+                <td><?= date("m-d-Y", strtotime($i['created_at'])) ?></td>
                 <td>Rp.<?= number_format($i['gross_amount']) ?></td>
-                <td>
+                <!-- <td>
                 <a href="/dashboardAdmin/detailTransaksi/<?= $i['order_id'] ?>" class="badge badge-primary">Detail</a>
-                </td>
+                </td> -->
               </tr>
             <?php $no++; endif; endforeach; ?>
             </tbody>

@@ -41,10 +41,12 @@
                   echo 'Pengajuan diterima, menunggu penyaluran dana';
                 }elseif($i['status'] == 3){
                   echo 'Pengajuan ditolak';
+                }elseif($i['status'] == 4){
+                  echo 'Sedang direview';
                 }?>
                 </td>
                 <td>
-                  <?php if($i['status'] != 1): ?>
+                  <?php if($i['status'] != 1 && $i['status'] != 4): ?>
                   <a href="/Dashboard/perbaruiPengajuan/<?= $i['id'] ?>" class="badge badge-success">Perbarui</a>
                   <a href="/Dashboard/hapusPengajuan/<?= $i['id'] ?>/<?= $i['fotoDiri'] ?>" class="badge badge-danger" onclick="return confirm('Ingin menghapus pengajuan ini?')">Hapus</a>
                   <?php endif; ?>

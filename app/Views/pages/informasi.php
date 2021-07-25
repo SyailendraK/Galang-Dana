@@ -18,10 +18,10 @@
   <div class="grey lighten-4">
 
     <div class="container">
-      <p class="center flow-text pt-4">Bagaimana kami bekerja :</p>
+      <p class="center flow-text pt-4">Bagaimana Kami Bekerja :</p>
       <div class="row">
         <div class="col l4 s12">
-          <div class="card">
+          <div class="card" style="height: 380px;">
             <div class="card-image" style="background-color: rgba(0,0,0,0.4);" >
               <img src="/img/icon-informasi-1.png">
               <span class="card-title" style="text-shadow: 2px 2px 2px black;">Pengumpulan dana dari donatur</span>
@@ -33,19 +33,19 @@
         </div>
 
         <div class="col l4 s12">
-          <div class="card">
+          <div class="card" style="height: 380px;">
             <div class="card-image" style="background-color: rgba(0,0,0,0.4);">
               <img src="/img/icon-informasi-2.png">
               <span class="card-title" style="text-shadow: 2px 2px 2px black;">Penyaluran bantuan</span>
             </div>
             <div class="card-content justify">
-              <p>Bantuan disalurkan dengan teliti melewati tahapan pemfilteran dengan harapan dana yang disalurkan teapt pada yang membutuhkan</p>
+              <p>Bantuan disalurkan dengan teliti melewati tahapan penyeleksian dengan harapan dana yang disalurkan tepat pada yang membutuhkan</p>
             </div>
           </div>
         </div>
 
         <div class="col l4 s12">
-          <div class="card">
+          <div class="card" style="height: 380px;">
             <div class="card-image" style="background-color: rgba(0,0,0,0.4);">
               <img src="/img/icon-informasi-3.png">
               <span class="card-title" style="text-shadow: 2px 2px 2px black;">Laporan penggunaan dana</span>

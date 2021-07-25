@@ -626,9 +626,37 @@ class PengajuanModel extends Model
         return $this->orderBy('created_at', 'desc')->orderBy('nik', 'RANDOM')->findAll(6);
     }
 
+    public function getNewPengajuan()
+    {
+        return $this->where(['status' => 0])->orWhere(['status' => 4])->orderBy('created_at', 'desc')->findAll(6);
+    }
+
+    public function getConfirmPengajuan()
+    {
+        return $this->where(['status' => 1])->orderBy('created_at', 'desc')->findAll(6);
+    }
+
     public function hapusPengajuan($id)
     {
         $this->delete($id);
+    }
+
+    public function searchPengajuan($pengajuan)
+    {
+        try {
+            return $this->having(['status' => 0])->like(['nik' => $pengajuan])->orLike(['nama' => $pengajuan])->orderBy('created_at', 'desc')->findAll(6);
+        } catch (\Throwable $th) {
+            return false;
+        }
+    }
+
+    public function searchPembayaran($pembayaran)
+    {
+        try {
+            return $this->having(['status' => 1])->like(['nik' => $pembayaran])->orLike(['nama' => $pembayaran])->orderBy('created_at', 'desc')->findAll(6);
+        } catch (\Throwable $th) {
+            return false;
+        }
     }
 
     // public function hapusPengajuanByUser($id)

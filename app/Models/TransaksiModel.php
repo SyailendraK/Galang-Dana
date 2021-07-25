@@ -46,13 +46,13 @@ class TransaksiModel extends Model
   {
     if($start != '' && $end != ''){
     return $this->where("(status_code=200 OR status_code=199) AND (created_at>='".$start."' AND created_at<='".$end."')")
-      ->orderBy('created_at', 'asc')->findAll();
+      ->orderBy('created_at', 'desc')->findAll();
     }if($start != '' || $end != ''){
       return $this->where("(status_code=200 OR status_code=199) AND (created_at='".$start."' OR created_at='".$end."')")
-      ->orderBy('created_at', 'asc')->findAll();
+      ->orderBy('created_at', 'desc')->findAll();
     }else{
       return $this->where("status_code=200 OR status_code=199")
-      ->orderBy('created_at', 'asc')->findAll();
+      ->orderBy('created_at', 'desc')->findAll(20);
     }
   }
 
@@ -60,8 +60,9 @@ class TransaksiModel extends Model
   {
     try {
       $this->insert($data);
+      return true;
     } catch (\Throwable $th) {
-      throw $th;
+      return false;
     }
   }
 

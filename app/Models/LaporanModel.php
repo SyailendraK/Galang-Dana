@@ -21,12 +21,17 @@ class LaporanModel extends Model
 
   public function getPengajuanLaporanByID($id)
   {
-      return $this->select('laporan_bantuan.user_id AS user_id,pengajuan_bantuan.nama AS nama,pengajuan_bantuan.nik AS nik,laporan_bantuan.cerita AS cerita,   laporan_bantuan.jumlah AS jumlah, fotoDiri, barang, laporan_bantuan.id AS id')->where(['status' => 2, 'laporan_bantuan.id' => $id])->join('pengajuan_bantuan', 'pengajuan_bantuan.id = laporan_bantuan.bantuan_id')->first();
+      return $this->select('laporan_bantuan.user_id AS user_id,pengajuan_bantuan.nama AS nama,pengajuan_bantuan.nik AS nik,laporan_bantuan.cerita AS cerita,   laporan_bantuan.jumlah AS jumlah, fotoDiri, barang, pembelian, laporan_bantuan.id AS id')->where(['status' => 2, 'laporan_bantuan.id' => $id])->join('pengajuan_bantuan', 'pengajuan_bantuan.id = laporan_bantuan.bantuan_id')->first();
   }
 
   public function getLaporanByName($name)
   {
     return $this->select('pengajuan_bantuan.nama AS nama,pengajuan_bantuan.nik AS nik,laporan_bantuan.cerita AS lap_cerita, pengajuan_bantuan.cerita AS ban_cerita, pengajuan_bantuan.jumlah AS ban_jumlah, laporan_bantuan.jumlah AS lap_jumlah, fotoDiri, pembelian, barang, laporan_bantuan.id AS id')->like(['nama' => $name])->join('pengajuan_bantuan', 'pengajuan_bantuan.id = laporan_bantuan.bantuan_id')->findAll();
+  }
+
+  public function searchLaporan($data)
+  {
+    return $this->select('pengajuan_bantuan.nama AS nama,pengajuan_bantuan.nik AS nik,laporan_bantuan.cerita AS lap_cerita, pengajuan_bantuan.cerita AS ban_cerita, pengajuan_bantuan.jumlah AS ban_jumlah, laporan_bantuan.jumlah AS lap_jumlah, fotoDiri, pembelian, barang, laporan_bantuan.id AS id, pengajuan_bantuan.status AS status')->having(['status' => 2])->like(['nama' => $data])->orLike(['nik' => $data])->join('pengajuan_bantuan', 'pengajuan_bantuan.id = laporan_bantuan.bantuan_id')->findAll();
   }
 
   public function getLaporanByUserID($id)

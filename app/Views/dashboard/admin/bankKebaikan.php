@@ -62,8 +62,8 @@
           <h5 class="card-title">Pemasukan dana</h5>
           <div class="row">
           <div class="col-12">
-          <?php if(session()->getFlashdata('pesan')): ?>
-            <?= session()->getFlashdata('pesan'); ?>
+          <?php if(session()->getFlashdata('tambah')): ?>
+            <?= session()->getFlashdata('tambah'); ?>
           <?php endif; ?>
           <form method="post" action="/dashboardAdmin/tambahDana" >
             <?= csrf_field(); ?>
@@ -80,6 +80,21 @@
               />
               <div class="invalid-feedback">
                 <?= $validation->getError('jumlah'); ?>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="keteranganTambah">Keterangan</label>
+              <input
+                type="text"
+                class="form-control <?= ($validation->hasError('keteranganTambah') ? 'is-invalid' : '') ?>"
+                id="keteranganTambah"
+                name="keteranganTambah"
+                value="<?= old('keteranganTambah') ?>"
+                placeholder="Keterangan"
+              />
+              <div class="invalid-feedback">
+                <?= $validation->getError('keteranganTambah'); ?>
               </div>
             </div>
 
@@ -134,6 +149,20 @@
               />
               <div class="invalid-feedback">
                 <?= $validation->getError('jumlah'); ?>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="keteranganKurang">Keterangan</label>
+              <input
+                type="text"
+                class="form-control <?= ($validation->hasError('keteranganKurang') ? 'is-invalid' : '') ?>"
+                id="keteranganKurang"
+                name="keteranganKurang"
+                value="<?= old('keteranganKurang') ?>"
+                placeholder="Keterangan"
+              />
+              <div class="invalid-feedback">
+                <?= $validation->getError('keteranganKurang'); ?>
               </div>
             </div>
             <div class="form-group">

@@ -92,6 +92,7 @@ class DashboardAdmin extends BaseController
 
     $rules = [
       'jumlah' => 'required|is_natural',
+      'keteranganTambah' => 'required',
       'tgl' => 'required'
     ];
 
@@ -99,11 +100,11 @@ class DashboardAdmin extends BaseController
       $dana['order_id'] = sprintf("%09d", mt_rand(1, 999999999));
       $dana['id_user'] = user_id();
       $dana['gross_amount'] = $this->request->getPost('jumlah');
+      $dana['keterangan'] = $this->request->getPost('keteranganTambah');
       $dana['transaction_time'] = $this->request->getPost('tgl');
       $dana['status_code'] = 200;
 
       if($this->transaksiModel->insertTransaksi($dana)){
-
         session()->setFlashdata('tambah', '<div class="alert alert-success" role="alert">
         Dana berhasil ditambah
         </div>');
@@ -128,6 +129,7 @@ class DashboardAdmin extends BaseController
 
     $rules = [
       'jumlah' => 'required|is_natural',
+      'keteranganKurang' => 'required',
       'tgl' => 'required'
     ];
 
@@ -135,11 +137,11 @@ class DashboardAdmin extends BaseController
       $dana['order_id'] = sprintf("%09d", mt_rand(1, 999999999));
       $dana['id_user'] = user_id();
       $dana['gross_amount'] = $this->request->getPost('jumlah');
+      $dana['keterangan'] = $this->request->getPost('keteranganKurang');
       $dana['transaction_time'] = $this->request->getPost('tgl');
       $dana['status_code'] = 199;
 
       if($this->transaksiModel->insertTransaksi($dana)){
-
         session()->setFlashdata('keluar', '<div class="alert alert-success" role="alert">
         Dana berhasil dikeluarkan
         </div>');
@@ -278,19 +280,25 @@ class DashboardAdmin extends BaseController
   public function daftarVerifikasi()
   {
     $data=[];
-    if($this->request->getVar('submit') !== null){
-      $nik = $this->request->getGet('search');
-      $result = $this->_cariVerifikasi($nik);
+    $dataPengajuanVerif = $this->request->getGet('search-pengajuanverif');
+    $dataVerified = $this->request->getGet('search-verified');
+    if($dataPengajuanVerif != '' && $dataVerified == ''){
+      $data = [
+        'validation' => \Config\Services::validation(),
+        'verifikasi' => $this->verifikasiModel->cariPengajuanVerif($dataPengajuanVerif),
+        'unverif' => $this->verifikasiModel->getVerified()
+      ];
+    }elseif($dataPengajuanVerif == '' && $dataVerified != ''){
       $data = [
         'validation' => \Config\Services::validation(),
         'verifikasi' => $this->verifikasiModel->getVerifikasiAll(),
-        'unverif' => $result
+        'unverif' => $this->verifikasiModel->cariVerified($dataVerified)
       ];
     }else{
       $data = [
         'validation' => \Config\Services::validation(),
         'verifikasi' => $this->verifikasiModel->getVerifikasiAll(),
-        'unverif' => null
+        'unverif' => $this->verifikasiModel->getVerified()
       ];
     }
     return view('dashboard/admin/verifikasiMember',$data);
@@ -335,15 +343,15 @@ class DashboardAdmin extends BaseController
     }
   }
 
-  private function _cariVerifikasi($nik)
-  {
-    $result = $this->verifikasiModel->cariVerifikasi($nik);
-    if($result != null){
-      return $result;
-    }else{
-      return null;
-    }
-  }
+  // private function _cariVerifikasi($nik)
+  // {
+  //   $result = ;
+  //   if($result != null){
+  //     return $result;
+  //   }else{
+  //     return null;
+  //   }
+  // }
 
   public function unVerifikasi($nik,$id)
   {
@@ -365,20 +373,25 @@ class DashboardAdmin extends BaseController
 
   public function kelolaPengajuan()
   {
-    $data=[];
-    if($this->request->getVar('pengajuanNIK') != null){
-      $nik = $this->request->getVar('pengajuanNIK');
-      $result = $this->pengajuanModel->getBantuanByNIK($nik);
+    $pembayaran = $this->request->getVar('search-pembayaran');
+    $pengajuan = $this->request->getVar('search-pengajuan');
+    if($pembayaran != '' && $pengajuan == ''){
       $data = [
         'validation' => \Config\Services::validation(),
-        'pengajuan' => $this->pengajuanModel->getPengajuanAll(),
-        'bayar' => $result
+        'pengajuan' => $this->pengajuanModel->getNewPengajuan(),
+        'bayar' => $this->pengajuanModel->searchPembayaran($pembayaran)
+      ];
+    }elseif($pembayaran == '' && $pengajuan != ''){
+      $data = [
+        'validation' => \Config\Services::validation(),
+        'pengajuan' => $this->pengajuanModel->searchPengajuan($pengajuan),
+        'bayar' =>  $this->pengajuanModel->getConfirmPengajuan()
       ];
     }else{
       $data = [
         'validation' => \Config\Services::validation(),
-        'pengajuan' => $this->pengajuanModel->getPengajuanAll(),
-        'bayar' => null
+        'pengajuan' => $this->pengajuanModel->getNewPengajuan(),
+        'bayar' => $this->pengajuanModel->getConfirmPengajuan()
       ];
     }
     return view('dashboard/admin/kelolaPengajuan',$data);
@@ -386,11 +399,13 @@ class DashboardAdmin extends BaseController
 
   public function detailPengajuan($id)
   {
-    $data = [
-      'validation' => \Config\Services::validation(),
-      'pengajuan' => $this->pengajuanModel->getPengajuan($id)
-    ];
-    return view('dashboard/admin/detailPengajuan',$data);
+    if($this->pengajuanModel->updatePengajuanStatus($id,4)){
+      $data = [
+        'validation' => \Config\Services::validation(),
+        'pengajuan' => $this->pengajuanModel->getPengajuan($id)
+      ];
+      return view('dashboard/admin/detailPengajuan',$data);
+    }
   }
 
   public function terimaPengajuan($id)
@@ -569,12 +584,12 @@ class DashboardAdmin extends BaseController
       $name = $this->request->getGet('search');
       $data = [
         'validation' => \Config\Services::validation(),
-        'laporan' => $this->laporanModel->getLaporanByName($name)
+        'laporan' => $this->laporanModel->searchLaporan($name)
       ];
     }else{
       $data = [
         'validation' => \Config\Services::validation(),
-        'laporan' => $this->laporanModel->getPengajuanLaporan(0)
+        'laporan' => $this->laporanModel->getPengajuanLaporan(6)
       ];
     }
     

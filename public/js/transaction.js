@@ -10,4 +10,4 @@ client.on("donations", (donations) => {
   console.log(donations);
 });
 
-client.login("syailendramuhammad@gmail.com", "15September1999");
+client.login("****", "***");

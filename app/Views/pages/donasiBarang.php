@@ -17,7 +17,7 @@
             <th>Provinsi</th>
             <th>Kota/Kabupaten</th>
             <th>Kecamatan</th>
-            <th>Desa</th>
+            <th>Keluraham/Desa</th>
             <th>Alamat</th>
             <th>Kontak</th>
           </tr>

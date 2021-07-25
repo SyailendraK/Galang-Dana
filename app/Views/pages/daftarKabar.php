@@ -26,16 +26,13 @@
               <img src="/img/bukti_laporan/<?= $i['barang'] ?>" class="img-responsive" style="max-height: 300px;min-height: 300px;">
               <span class="card-title" style="text-shadow: 2px 2px 2px black; width: 400px; background-color: rgba(0,0,0,0.5); overflow: hidden;" ><?= $i['nama'] ?></span>
             </div>
-            <div class="card-content" style="max-height: 95px;overflow : hidden;
+            <div class="card-content" style="max-height: 70px;overflow : hidden;
               text-overflow: ellipsis;
               display: -webkit-box;
-              -webkit-line-clamp: 3;
+              -webkit-line-clamp: 2;
               -webkit-box-orient: vertical;
               text-align: justify">
               <p><?= $i['lap_cerita'] ?></p>
-            </div>
-            <div class="card-action">
-              <a href="#">This is a link</a>
             </div>
           </div>
       </a>
@@ -58,16 +55,13 @@
             <img src="/img/fotodiri/<?= $i['fotoDiri'] ?>" class="img-responsive" style="max-height: 300px;min-height: 300px;">
             <span class="card-title" style="text-shadow: 2px 2px 2px black; width: 400px; background-color: rgba(0,0,0,0.5); overflow: hidden;" ><?= $i['nama'] ?></span>
           </div>
-          <div class="card-content" style="max-height: 95px;overflow : hidden;
+          <div class="card-content" style="max-height: 70px;overflow : hidden;
             text-overflow: ellipsis;
             display: -webkit-box;
-            -webkit-line-clamp: 3;
+            -webkit-line-clamp: 2;
             -webkit-box-orient: vertical;
             text-align: justify">
             <p><?= $i['cerita'] ?></p>
-          </div>
-          <div class="card-action">
-            <a href="#">This is a link</a>
           </div>
         </div>
       </a>

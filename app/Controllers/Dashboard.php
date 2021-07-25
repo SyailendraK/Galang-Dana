@@ -132,7 +132,7 @@ class Dashboard extends BaseController
 
   public function verifikasi()
   {
-    if(user()->status != 0 || user()->address == null || user()->telephone == null){
+    if((user()->status != 0 && user()->status != 3) || user()->status == 3 || user()->address == null || user()->telephone == null){
       echo "Access Denied";
       die;
     }else{
@@ -292,7 +292,7 @@ class Dashboard extends BaseController
   {
     $dataLama = $this->pengajuanModel->getPengajuan($id);
 
-    if($dataLama['user_id'] != user_id() || $dataLama['status'] != 0){
+    if($dataLama['user_id'] != user_id() || $dataLama['status'] == 1 || $dataLama['status'] == 2 || $dataLama['status'] == 4){
       echo "Access Denied";
       die;
     }else{
@@ -373,7 +373,7 @@ class Dashboard extends BaseController
 
     $dataLama = $this->pengajuanModel->getPengajuan($id);
 
-    if($dataLama['user_id'] != user_id() || $dataLama['status'] != 0){
+    if($dataLama['user_id'] != user_id() || $dataLama['status'] == 1 || $dataLama['status'] == 2 || $dataLama['status'] == 4){
       echo "Access Denied";
       die;
     }else{

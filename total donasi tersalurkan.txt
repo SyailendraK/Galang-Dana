@@ -1,0 +1,15 @@
+<p>Donasi tersalurkan</p>
+              <img src="img/icon_donatur_tr.png" alt="" width="150" />
+              <?php if($pengeluaran != null): ?>
+              <?php 
+              $temp2=0;
+              foreach($pengeluaran as $i){
+                $temp2 += $i['gross_amount'];
+              }
+              $temp2 = $temp2/$count;
+              
+              ?>
+              <p>Rp.<?= ($temp2 > $temp) ? number_format($temp) : number_format($temp2) ?></p>
+              <?php else: ?>
+              <p>Rp.0</p>
+              <?php endif; ?>

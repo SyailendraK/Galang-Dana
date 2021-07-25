@@ -43,6 +43,20 @@ class VerifikasiModel extends Model
   {
     return $this->where(['status' => 0])->orderBy('created_at', 'DESC')->orderBy('nik', 'RANDOM')->findAll(6);
   }
+
+  public function getVerified()
+  {
+    return $this->where(['status' => 2])->orderBy('created_at', 'DESC')->orderBy('nik', 'RANDOM')->findAll(6);
+  }
+
+  public function cariPengajuanVerif($dataPengajuanVerif)
+  {
+    try {
+      return $this->having(['status' => 0])->like(['nik' => $dataPengajuanVerif])->orLike(['nama' => $dataPengajuanVerif])->orderBy('created_at', 'DESC')->orderBy('nik', 'RANDOM')->findAll(6);
+    } catch (\Throwable $th) {
+      return false;
+    }
+  }
   
   public function getVerifikasiByID($id)
   {
@@ -55,7 +69,6 @@ class VerifikasiModel extends Model
       $this->update($id, ['status' => 2]);
       return true;
     } catch (\Throwable $th) {
-      dd($th);
       return false;
     }
   }
@@ -80,9 +93,9 @@ class VerifikasiModel extends Model
     }
   }
 
-  public function cariVerifikasi($nik)
+  public function cariVerified($dataVerified)
   {
-    return $this->where(['nik' => $nik,'status' => 2])->findAll();
+    return $this->having(['status' => 2])->like(['nik' => $dataVerified])->orLike(['nama' => $dataVerified])->findAll();
   }
 
 

@@ -47,7 +47,7 @@ class Email extends BaseConfig
 	 *
 	 * @var string
 	 */
-	public $SMTPHost = 'mail.saylendra.com';
+	public $SMTPHost = '***';
 
 	/**
 	 * SMTP Username
@@ -61,7 +61,7 @@ class Email extends BaseConfig
 	 *
 	 * @var string
 	 */
-	public $SMTPPass = 'razeamazing123';
+	public $SMTPPass = '***';
 
 	/**
 	 * SMTP Port

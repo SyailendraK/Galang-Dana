@@ -32,9 +32,9 @@
               <tr>
                 <td><?= $no ?></td>
                 <td style="max-width: 200px !important">
-                  <?= $i['pdf_url'] ?>
+                  <?= $i['keterangan'] ?>
                 </td>
-                <td><?= $i['created_at'] ?></td>
+                <td><?= date("m-d-Y", strtotime($i['created_at'])) ?></td>
                 <td>Rp.<?= number_format($i['gross_amount']) ?></td>
               </tr>
               <?php $no++;$jumlah+=(int)$i['gross_amount'];endif;endforeach; ?>
@@ -61,9 +61,9 @@
               <tr>
                 <td><?= $no ?></td>
                 <td style="max-width: 200px !important">
-                  <?= $i['pdf_url'] ?>
+                  <?= $i['keterangan'] ?>
                 </td>
-                <td><?= $i['created_at'] ?></td>
+                <td><?= date("m-d-Y", strtotime($i['created_at'])) ?></td>
                 <td>Rp.<?= number_format($i['gross_amount']) ?></td>
               </tr>
               <?php $no++;$jumlah+=(int)$i['gross_amount'];endif;endforeach; ?>

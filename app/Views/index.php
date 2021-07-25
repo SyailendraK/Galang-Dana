@@ -6,7 +6,7 @@
   <ul class="slides">
     <li>
       <img
-        src="https://wallpapermemory.com/uploads/595/park-background-full-hd-1920x1080-98913.jpg"
+        src="/img/sss-1.jpg"
       />
       <!-- random image -->
       <div class="caption center-align" style="text-shadow: 2px 2px 2px black;">
@@ -16,7 +16,7 @@
     </li>
     <li>
       <img
-        src="https://www.wallpapertip.com/wmimgs/0-4190_3840x2160-4k-nature-wallpaper-dump-data-id-139651.jpg"
+        src="/img/sss-2.jpg"
       />
       <!-- random image -->
       <div class="caption left-align" style="text-shadow: 2px 2px 2px black;">
@@ -25,7 +25,7 @@
       </div>
     </li>
     <li>
-      <img src="https://wallpapercave.com/wp/wp2915531.jpg" />
+      <img src="/img/sss-3.jpg" />
       <!-- random image -->
       <div class="caption right-align" style="text-shadow: 2px 2px 2px black;">
         <h3>Hebat Karena Berbuat</h3>
@@ -98,10 +98,10 @@
               <p>Rp. 2.300.000</p>
             </a> -->
           </div>
-          <div class="card-content" style="max-height: 95px;overflow : hidden;
+          <div class="card-content" style="max-height: 70px;overflow : hidden;
           text-overflow: ellipsis;
           display: -webkit-box;
-          -webkit-line-clamp: 3;
+          -webkit-line-clamp: 2;
           -webkit-box-orient: vertical;
           text-align: justify">
             <p>

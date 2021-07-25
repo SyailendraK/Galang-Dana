@@ -11,6 +11,10 @@
       <div class="card text-center">
         <div class="card-body">
           <h5 class="card-title">Daftar Pengajuan</h5>
+          <form class="form-inline" method="get" action="/dashboardAdmin/KelolaPengajuan">
+            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="search-pengajuan" ">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit" name="submit">Search</button>
+          </form>
           <div class="row">
           <div class="col-12" style="overflow-x: scroll;">
           <?php if(session()->getFlashdata('pengajuan')): ?>
@@ -20,20 +24,22 @@
             <thead>
               <tr>
                 <th scope="col">No.</th>
+                <th scope="col">Nama</th>
                 <th scope="col">NIK</th>
                 <th scope="col">Aksi</th>
               </tr>
             </thead>
             <tbody>
-              <?php $no=1;foreach($pengajuan as $i): if($i['status'] == 0):?>
+              <?php $no=1;foreach($pengajuan as $i):?>
               <tr style="text-transform: capitalize">
                 <td><?= $no ?></td>
+                <td><?= $i['nama'] ?></td>
                 <td><?= $i['nik'] ?></td>
                 <td>
                   <a href="/dashboardAdmin/detailPengajuan/<?= $i['id'] ?>" class="badge badge-primary">Detail</a>
                 </td>
               </tr>
-              <?php $no++;endif;endforeach; ?>
+              <?php $no++;endforeach; ?>
             </tbody>
           </table>
           </div>
@@ -47,7 +53,7 @@
           <h5 class="card-title">Pembayaran</h5>
 
           <form class="form-inline" method="get" action="/dashboardAdmin/KelolaPengajuan">
-            <input class="form-control mr-sm-2  mx-auto" type="search" placeholder="Search" aria-label="Search" name="pengajuanNIK">
+            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="search-pembayaran">
             <button class="btn btn-outline-success my-2 my-sm-0" type="submit" name="submit">Search</button>
           </form>
 
@@ -61,20 +67,22 @@
             <thead>
               <tr>
                 <th scope="col">No.</th>
+                <th scope="col">Nama</th>
                 <th scope="col">NIK</th>
                 <th scope="col">Aksi</th>
               </tr>
             </thead>
             <tbody>
-            <?php if($bayar):$no=1;foreach($bayar as $i): ?>
+            <?php $no=1;foreach($bayar as $i): ?>
               <tr style="text-transform: capitalize">
                 <td><?= $no ?></td>
+                <td><?= $i['nama'] ?></td>
                 <td><?= $i['nik'] ?></td>
                 <td>
                   <a href="/dashboardAdmin/detailPembayaran/<?= $i['id'] ?>" class="badge badge-success">Konfirmasi pembayaran</a>
                 </td>
               </tr>
-            <?php endforeach;endif; ?>
+            <?php endforeach; ?>
             </tbody>
           </table>
           </div>
